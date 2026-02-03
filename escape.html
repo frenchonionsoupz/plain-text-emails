@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escape The Algorithm</title>
+  <meta name="description" content="Break free from algorithmic control. Reclaim your attention, your choices, and your digital independence." />
+  <style>
+    /* =============================================
+       ESCAPE THE ALGORITHM — Landing Page
+       ============================================= */
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ---------- KEYFRAMES ---------- */
+
+    @keyframes glitchColor {
+      0%   { text-shadow: 2px 0 #ff6b35, -2px 0 #00ff88; }
+      25%  { text-shadow: -2px 0 #ff6b35, 2px 0 #00ff88; }
+      50%  { text-shadow: 2px 2px #ff6b35, -2px -2px #00ff88; }
+      75%  { text-shadow: -2px 2px #ff6b35, 2px -2px #00ff88; }
+      100% { text-shadow: 2px 0 #ff6b35, -2px 0 #00ff88; }
+    }
+
+    @keyframes glitchClip {
+      0%   { clip-path: inset(0 0 85% 0); transform: translate(2px, -2px); }
+      10%  { clip-path: inset(15% 0 60% 0); transform: translate(-2px, 2px); }
+      20%  { clip-path: inset(50% 0 20% 0); transform: translate(2px, 1px); }
+      30%  { clip-path: inset(10% 0 70% 0); transform: translate(-1px, -2px); }
+      40%  { clip-path: inset(60% 0 5% 0); transform: translate(1px, 2px); }
+      50%  { clip-path: inset(30% 0 40% 0); transform: translate(-2px, -1px); }
+      60%  { clip-path: inset(70% 0 10% 0); transform: translate(2px, -2px); }
+      70%  { clip-path: inset(5% 0 80% 0); transform: translate(-1px, 2px); }
+      80%  { clip-path: inset(40% 0 30% 0); transform: translate(1px, -1px); }
+      90%  { clip-path: inset(80% 0 0 0); transform: translate(-2px, 1px); }
+      100% { clip-path: inset(0 0 85% 0); transform: translate(2px, -2px); }
+    }
+
+    @keyframes scanline {
+      0%   { top: -10%; }
+      100% { top: 110%; }
+    }
+
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+      20%, 24%, 55% { opacity: 0.4; }
+    }
+
+    @keyframes blink {
+      0%, 100% { border-color: #ff6b35; }
+      50%      { border-color: transparent; }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(60px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes spotlight {
+      0%   { transform: translateX(-100%) rotate(15deg); }
+      100% { transform: translateX(200%) rotate(15deg); }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(255,107,53,0.3); }
+      50%      { box-shadow: 0 0 40px rgba(255,107,53,0.6), 0 0 80px rgba(255,107,53,0.2); }
+    }
+
+    @keyframes prisonBarFlash {
+      0%, 100% { opacity: 0.03; }
+      50%      { opacity: 0.07; }
+    }
+
+    @keyframes stampSlam {
+      0%   { transform: scale(3) rotate(-15deg); opacity: 0; }
+      60%  { transform: scale(1) rotate(-15deg); opacity: 1; }
+      70%  { transform: scale(1.05) rotate(-15deg); }
+      100% { transform: scale(1) rotate(-15deg); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+
+    /* ---------- PAGE ---------- */
+
+    body {
+      background: #0a0a0a;
+      color: #e0e0e0;
+      font-family: 'Courier New', Courier, monospace;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* CRT scanline */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -10%;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      background: rgba(255,107,53,0.06);
+      z-index: 9999;
+      pointer-events: none;
+      animation: scanline 4s linear infinite;
+    }
+
+    /* CRT vignette */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);
+      z-index: 9998;
+      pointer-events: none;
+    }
+
+    /* Prison bars */
+    .prison-bars {
+      position: fixed;
+      inset: 0;
+      z-index: 9997;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 80px,
+        rgba(255,255,255,0.03) 80px,
+        rgba(255,255,255,0.03) 82px
+      );
+      animation: prisonBarFlash 3s ease-in-out infinite;
+    }
+
+    /* ---------- NAV ---------- */
+
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 10000;
+      background: rgba(10,10,10,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,107,53,0.2);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transform: translateY(-100%);
+      transition: transform 0.4s ease;
+    }
+    .nav.visible { transform: translateY(0); }
+
+    .nav-logo {
+      font-weight: 900;
+      font-size: 0.9rem;
+      color: #ff6b35;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+    .nav-links a:hover { color: #ff6b35; }
+
+    /* ---------- HERO ---------- */
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 2rem;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,107,53,0.03), transparent);
+      animation: spotlight 6s ease-in-out infinite;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 8vw, 6rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #fff;
+      text-align: center;
+      position: relative;
+      animation: glitchColor 3s ease-in-out infinite;
+      line-height: 1.1;
+    }
+    .hero-title::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0; left: 0;
+      color: #fff;
+      animation: glitchClip 3s linear infinite;
+      opacity: 0.8;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: #ff6b35;
+      margin-top: 1.5rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      animation: flicker 4s linear infinite;
+      min-height: 1.8em;
+    }
+    .hero-subtitle .cursor {
+      border-right: 2px solid #ff6b35;
+      margin-left: 2px;
+      animation: blink 0.8s step-end infinite;
+    }
+
+    .hero-tagline {
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      color: rgba(255,255,255,0.5);
+      margin-top: 2rem;
+      max-width: 600px;
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255,107,53,0.6);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      animation: float 2s ease-in-out infinite;
+    }
+    .scroll-arrow {
+      width: 20px; height: 20px;
+      border-right: 2px solid #ff6b35;
+      border-bottom: 2px solid #ff6b35;
+      transform: rotate(45deg);
+    }
+
+    /* ---------- DIVIDER ---------- */
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,107,53,0.3), transparent);
+    }
+
+    /* ---------- SECTIONS ---------- */
+
+    .section {
+      padding: 6rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      opacity: 0;
+      transform: translateY(60px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .section.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-number {
+      font-size: 0.75rem;
+      color: #ff6b35;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 900;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+    .section-desc {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.8;
+      max-width: 650px;
+    }
+
+    /* ---------- START HERE ---------- */
+
+    .start-here { text-align: center; }
+
+    .start-icon {
+      width: 80px; height: 80px;
+      margin: 0 auto 2rem;
+      border: 2px solid #ff6b35;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+
+    .start-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .start-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,107,53,0.15);
+      padding: 2rem;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      text-align: left;
+    }
+    .start-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 2px;
+      background: linear-gradient(90deg, transparent, #ff6b35, transparent);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+    .start-card:hover::before { transform: scaleX(1); }
+    .start-card:hover {
+      background: rgba(255,107,53,0.05);
+      border-color: rgba(255,107,53,0.3);
+      transform: translateY(-4px);
+    }
+    .start-card-num {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: rgba(255,107,53,0.2);
+      margin-bottom: 1rem;
+    }
+    .start-card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .start-card-desc {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.6;
+    }
+
+    /* ---------- ESCAPE PLAN ---------- */
+
+    .blueprint-grid {
+      display: grid;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .blueprint-item {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      padding: 2rem;
+      background: rgba(255,255,255,0.02);
+      border-left: 3px solid rgba(255,107,53,0.3);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+    .blueprint-item:hover {
+      background: rgba(255,107,53,0.05);
+      border-left-color: #ff6b35;
+      padding-left: 2.5rem;
+    }
+    .blueprint-icon {
+      font-size: 1.5rem;
+      min-width: 40px; height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,107,53,0.3);
+      color: #ff6b35;
+      flex-shrink: 0;
+    }
+    .blueprint-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .blueprint-desc {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.6;
+    }
+
+    /* ---------- BREAKOUT KIT ---------- */
+
+    .kit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .kit-item {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .kit-item::after {
+      content: 'CLASSIFIED';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: rgba(255,107,53,0.08);
+      letter-spacing: 0.3em;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .kit-item:hover::after { opacity: 0; }
+    .kit-item:hover {
+      border-color: rgba(255,107,53,0.3);
+      background: rgba(255,107,53,0.05);
+      transform: translateY(-4px);
+    }
+    .kit-icon { margin-bottom: 1rem; display: block; }
+    .kit-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .kit-desc {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.6;
+    }
+
+    /* ---------- CASE FOR ESCAPING ---------- */
+
+    .case-section { overflow: hidden; }
+    .case-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(255,107,53,0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .manifesto { margin-top: 3rem; }
+    .manifesto-quote {
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      color: rgba(255,255,255,0.85);
+      line-height: 1.8;
+      border-left: 3px solid #ff6b35;
+      padding-left: 2rem;
+      margin-bottom: 3rem;
+      font-style: italic;
+    }
+
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .reason-card {
+      padding: 1.5rem;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      transition: all 0.3s ease;
+    }
+    .reason-card:hover { border-color: rgba(255,107,53,0.2); }
+    .reason-num {
+      font-size: 2rem;
+      font-weight: 900;
+      color: rgba(255,107,53,0.3);
+      margin-bottom: 0.5rem;
+    }
+    .reason-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .reason-desc {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.6;
+    }
+
+    /* ---------- NEWSLETTER ---------- */
+
+    .newsletter { text-align: center; }
+
+    .newsletter-box {
+      margin: 3rem auto 0;
+      padding: 3rem;
+      border: 1px solid rgba(255,107,53,0.2);
+      background: rgba(255,107,53,0.03);
+      position: relative;
+      max-width: 550px;
+    }
+    .newsletter-box::before {
+      content: 'TOP SECRET';
+      position: absolute;
+      top: -0.7rem; left: 2rem;
+      background: #0a0a0a;
+      padding: 0 0.75rem;
+      font-size: 0.7rem;
+      font-weight: 900;
+      color: #ff6b35;
+      letter-spacing: 0.3em;
+    }
+
+    .newsletter-freq {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 2rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .form-group {
+      display: flex;
+      gap: 0;
+      max-width: 450px;
+      margin: 0 auto;
+    }
+    .email-input {
+      flex: 1;
+      padding: 0.9rem 1.2rem;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-right: none;
+      color: #fff;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .email-input::placeholder { color: rgba(255,255,255,0.25); }
+    .email-input:focus { border-color: rgba(255,107,53,0.5); }
+
+    .submit-btn {
+      padding: 0.9rem 1.8rem;
+      background: #ff6b35;
+      color: #0a0a0a;
+      border: 1px solid #ff6b35;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.85rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+    .submit-btn:hover { background: #e55a28; border-color: #e55a28; }
+
+    .newsletter-note {
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    .success-msg {
+      color: #00ff88;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .success-msg svg {
+      display: inline;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    /* ---------- DECLARATION ---------- */
+
+    .declaration { text-align: center; }
+
+    .declaration-paper {
+      margin: 3rem auto 0;
+      padding: 3rem;
+      background: rgba(255,248,235,0.03);
+      border: 1px solid rgba(255,107,53,0.15);
+      position: relative;
+      max-width: 650px;
+    }
+
+    .declaration-text {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 2;
+      text-align: left;
+      margin-bottom: 2.5rem;
+    }
+    .highlight { color: #ff6b35; font-weight: 700; }
+
+    .signature-area {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 2rem;
+    }
+    .sig-label {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .sig-input {
+      width: 100%;
+      max-width: 350px;
+      padding: 0.75rem 0;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .sig-input::placeholder { color: rgba(255,255,255,0.15); font-style: italic; }
+    .sig-input:focus { border-bottom-color: #ff6b35; }
+
+    .declare-btn {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 1rem 3rem;
+      background: transparent;
+      border: 2px solid #ff6b35;
+      color: #ff6b35;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .declare-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #ff6b35;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+      z-index: -1;
+    }
+    .declare-btn:hover::before { transform: scaleX(1); }
+    .declare-btn:hover { color: #0a0a0a; }
+    .declare-btn:disabled { opacity: 0.4; cursor: default; }
+    .declare-btn:disabled:hover::before { transform: scaleX(0); }
+    .declare-btn:disabled:hover { color: #ff6b35; }
+
+    .stamp {
+      position: absolute;
+      top: 50%; right: 5%;
+      transform: translate(0, -50%) rotate(-15deg);
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 900;
+      color: #ff6b35;
+      border: 4px solid #ff6b35;
+      padding: 0.5rem 1.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .stamp.visible { animation: stampSlam 0.5s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+
+    .welcome-msg {
+      color: #00ff88;
+      margin-top: 1.5rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    /* ---------- COUNTER BAR ---------- */
+
+    .counter-bar {
+      padding: 4rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      background: rgba(255,107,53,0.02);
+    }
+    .counter-number {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 900;
+      color: #ff6b35;
+    }
+    .counter-label {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+    }
+
+    /* ---------- FOOTER ---------- */
+
+    .footer {
+      padding: 4rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-logo {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: #ff6b35;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .footer-text {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.1em;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .section { padding: 4rem 1.5rem; }
+      .declaration-paper { padding: 2rem 1.5rem; }
+      .stamp { right: 2%; font-size: 1.2rem; }
+      .form-group { flex-direction: column; }
+      .email-input { border-right: 1px solid rgba(255,255,255,0.1); border-bottom: none; }
+      .start-cards { grid-template-columns: 1fr; }
+      .reasons-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Prison bar overlay -->
+  <div class="prison-bars"></div>
+
+  <!-- ========== NAV ========== -->
+  <nav class="nav" id="nav">
+    <span class="nav-logo">ETA</span>
+    <ul class="nav-links">
+      <li><a onclick="scrollTo_('start')">Start</a></li>
+      <li><a onclick="scrollTo_('plan')">Plan</a></li>
+      <li><a onclick="scrollTo_('kit')">Kit</a></li>
+      <li><a onclick="scrollTo_('case')">Why</a></li>
+      <li><a onclick="scrollTo_('newsletter')">Newsletter</a></li>
+      <li><a onclick="scrollTo_('declare')">Declare</a></li>
+    </ul>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <h1 class="hero-title" data-text="Escape The Algorithm">Escape<br>The Algorithm</h1>
+    <p class="hero-subtitle" id="typewriter"></p>
+    <p class="hero-tagline">
+      You&rsquo;ve been living in a cell built from feeds, notifications, and
+      dopamine loops. The door was never locked&mdash;you just forgot it was there.
+    </p>
+    <div class="scroll-indicator">
+      <span>Begin Escape</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ========== 01 — START HERE ========== -->
+  <section id="start" class="section start-here">
+    <div class="start-icon">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ff6b35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+    </div>
+    <span class="section-number">Phase 01</span>
+    <h2 class="section-title">Start Here</h2>
+    <p class="section-desc" style="margin:0 auto">
+      A perfect starting place for new wannabe-Escapees. No experience required.
+      No special skills. Just a willingness to see things differently.
+    </p>
+    <div class="start-cards">
+      <div class="start-card">
+        <div class="start-card-num">01</div>
+        <div class="start-card-title">Recognize The Walls</div>
+        <div class="start-card-desc">
+          Understand the invisible architecture that keeps you scrolling, clicking,
+          and consuming on autopilot.
+        </div>
+      </div>
+      <div class="start-card">
+        <div class="start-card-num">02</div>
+        <div class="start-card-title">Question The Feed</div>
+        <div class="start-card-desc">
+          Learn to distinguish between what you chose and what was chosen for you.
+          The difference will disturb you.
+        </div>
+      </div>
+      <div class="start-card">
+        <div class="start-card-num">03</div>
+        <div class="start-card-title">Plan Your Route</div>
+        <div class="start-card-desc">
+          Map out your personal escape. Everyone&rsquo;s breakout looks
+          different&mdash;find the one that fits your life.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ========== 02 — YOUR ESCAPE PLAN ========== -->
+  <section id="plan" class="section">
+    <span class="section-number">Phase 02</span>
+    <h2 class="section-title">Your Escape Plan</h2>
+    <p class="section-desc">
+      Educational resources to help you escape. Think of these as the blueprints
+      smuggled into your cell.
+    </p>
+    <div class="blueprint-grid">
+      <div class="blueprint-item">
+        <div class="blueprint-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="blueprint-title">The Algorithmic Literacy Guide</div>
+          <div class="blueprint-desc">A comprehensive breakdown of how recommendation engines, attention markets, and behavioral prediction work. Know thy enemy.</div>
+        </div>
+      </div>
+      <div class="blueprint-item">
+        <div class="blueprint-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <div>
+          <div class="blueprint-title">Digital Detox Framework</div>
+          <div class="blueprint-desc">A structured, step-by-step program for reclaiming your screen time without going full hermit. Practical, gradual, effective.</div>
+        </div>
+      </div>
+      <div class="blueprint-item">
+        <div class="blueprint-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="blueprint-title">Privacy &amp; Autonomy Playbook</div>
+          <div class="blueprint-desc">Protect your data, your habits, and your decision-making from platforms designed to exploit all three.</div>
+        </div>
+      </div>
+      <div class="blueprint-item">
+        <div class="blueprint-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+            <path d="M16 3.13a4 4 0 010 7.75"/>
+          </svg>
+        </div>
+        <div>
+          <div class="blueprint-title">Community Building 101</div>
+          <div class="blueprint-desc">Algorithms isolate. Real connections liberate. Learn to build genuine communities outside the walled gardens.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ========== 03 — YOUR BREAKOUT KIT ========== -->
+  <section id="kit" class="section">
+    <span class="section-number">Phase 03</span>
+    <h2 class="section-title">Your Breakout Kit</h2>
+    <p class="section-desc">
+      Tactical resources that can aid your escape. Consider these the lockpicks,
+      the rope ladder, and the getaway car.
+    </p>
+    <div class="kit-grid">
+      <div class="kit-item">
+        <span class="kit-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0110 0v4"/>
+          </svg>
+        </span>
+        <div class="kit-title">Feed Blockers</div>
+        <div class="kit-desc">Tools to neutralize infinite scroll and recommendation engines.</div>
+      </div>
+      <div class="kit-item">
+        <span class="kit-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </span>
+        <div class="kit-title">Privacy Shields</div>
+        <div class="kit-desc">Browsers, extensions, and configurations that actually protect you.</div>
+      </div>
+      <div class="kit-item">
+        <span class="kit-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </span>
+        <div class="kit-title">Time Reclaimers</div>
+        <div class="kit-desc">Frameworks and apps to take back the hours the algorithm stole.</div>
+      </div>
+      <div class="kit-item">
+        <span class="kit-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+          </svg>
+        </span>
+        <div class="kit-title">Alt Platforms</div>
+        <div class="kit-desc">Independent, human-first alternatives to the Big Tech defaults.</div>
+      </div>
+      <div class="kit-item">
+        <span class="kit-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+          </svg>
+        </span>
+        <div class="kit-title">Reading Lists</div>
+        <div class="kit-desc">Curated books, articles, and essays from the escape movement.</div>
+      </div>
+      <div class="kit-item">
+        <span class="kit-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </span>
+        <div class="kit-title">Open-Source Toolkit</div>
+        <div class="kit-desc">Code, scripts, and self-hosted solutions for the technically inclined.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ========== 04 — THE CASE FOR ESCAPING ========== -->
+  <section id="case" class="section case-section">
+    <span class="section-number">Phase 04</span>
+    <h2 class="section-title">The Case For Escaping</h2>
+    <p class="section-desc">
+      The &ldquo;why&rdquo; behind all of this. Why it matters so much. Why people
+      should want to get on board.
+    </p>
+    <div class="manifesto">
+      <blockquote class="manifesto-quote">
+        &ldquo;The algorithm doesn&rsquo;t show you what matters. It shows you what
+        keeps you staring. There&rsquo;s a billion-dollar difference between the two.&rdquo;
+      </blockquote>
+      <div class="reasons-grid">
+        <div class="reason-card">
+          <div class="reason-num">01</div>
+          <div class="reason-title">Your Attention Is Being Sold</div>
+          <div class="reason-desc">Every second you spend in a feed is inventory on an ad exchange. You are not the customer. You are the product being auctioned.</div>
+        </div>
+        <div class="reason-card">
+          <div class="reason-num">02</div>
+          <div class="reason-title">Your Choices Aren't Yours</div>
+          <div class="reason-desc">Recommendation engines don't serve you options. They serve you outcomes&mdash;ones that benefit the platform, not you.</div>
+        </div>
+        <div class="reason-card">
+          <div class="reason-num">03</div>
+          <div class="reason-title">Your Mental Health Is At Stake</div>
+          <div class="reason-desc">Anxiety, comparison, outrage, loneliness&mdash;these aren't side effects. They're engagement features. By design.</div>
+        </div>
+        <div class="reason-card">
+          <div class="reason-num">04</div>
+          <div class="reason-title">Democracy Needs You Present</div>
+          <div class="reason-desc">A society of algorithmically-isolated individuals can't self-govern. Shared reality requires shared spaces&mdash;not personalized bubbles.</div>
+        </div>
+        <div class="reason-card">
+          <div class="reason-num">05</div>
+          <div class="reason-title">Creativity Demands Freedom</div>
+          <div class="reason-desc">You can't create something original when your entire input stream is optimized for sameness and conformity.</div>
+        </div>
+        <div class="reason-card">
+          <div class="reason-num">06</div>
+          <div class="reason-title">Your Kids Are Watching</div>
+          <div class="reason-desc">The next generation will inherit whatever relationship with technology we normalize today. Make it one worth inheriting.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ========== 05 — THE NEWSLETTER ========== -->
+  <section id="newsletter" class="section newsletter">
+    <span class="section-number">Phase 05</span>
+    <h2 class="section-title">The Newsletter</h2>
+    <p class="section-desc" style="margin:0 auto">
+      Weekly dispatches from beyond the algorithmic wall. Strategies, stories,
+      and signals from fellow Escapees.
+    </p>
+    <div class="newsletter-box">
+      <div class="newsletter-freq">
+        Delivered every week &middot; plain text &middot; no tracking pixels
+      </div>
+      <div id="newsletter-form-area">
+        <form id="newsletter-form">
+          <div class="form-group">
+            <input type="email" class="email-input" id="email-input" placeholder="your@email.com" required aria-label="Email address" />
+            <button type="submit" class="submit-btn">Escape</button>
+          </div>
+        </form>
+      </div>
+      <div class="newsletter-note">
+        No spam. No tracking. Unsubscribe anytime. We respect the independence you're fighting for.
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ========== 06 — DECLARE YOUR INDEPENDENCE ========== -->
+  <section id="declare" class="section declaration">
+    <span class="section-number">Phase 06</span>
+    <h2 class="section-title">Declare Your Independence</h2>
+    <p class="section-desc" style="margin:0 auto">
+      Sign your name. Join the movement. Become part of something bigger than any
+      feed could ever contain.
+    </p>
+    <div class="declaration-paper">
+      <div class="declaration-text">
+        I, the undersigned, hereby declare my
+        <span class="highlight">independence from algorithmic control</span>.
+        I refuse to let automated systems dictate what I see, what I think,
+        or how I spend my finite time on this earth.
+        <br><br>
+        I commit to
+        <span class="highlight">reclaiming my attention</span>,
+        <span class="highlight">choosing my own inputs</span>, and
+        <span class="highlight">building genuine human connections</span>
+        outside the walled gardens of Big Tech.
+        <br><br>
+        I understand that escaping is not a one-time act but a daily practice.
+        I sign this not as an end, but as a beginning.
+      </div>
+      <div class="signature-area">
+        <label class="sig-label" for="sig-input">Your Name &mdash; Your Declaration</label>
+        <input type="text" class="sig-input" id="sig-input" placeholder="Sign here..." />
+        <br>
+        <button class="declare-btn" id="declare-btn" disabled>Declare Independence</button>
+        <div id="welcome-msg"></div>
+      </div>
+      <div class="stamp" id="stamp">ESCAPED</div>
+    </div>
+  </section>
+
+  <!-- ========== COUNTER BAR ========== -->
+  <div class="counter-bar" id="counter-bar">
+    <div class="counter-number" id="counter-number">0</div>
+    <div class="counter-label">People Have Escaped So Far</div>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer-logo">Escape The Algorithm</div>
+    <div class="footer-text">Built by humans. For humans. No algorithms were consulted in the making of this page.</div>
+  </footer>
+
+  <!-- ========== JAVASCRIPT ========== -->
+  <script>
+    (function () {
+      /* --- Smooth scroll helper --- */
+      window.scrollTo_ = function (id) {
+        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+      };
+
+      /* --- Typewriter --- */
+      var twText = '// INITIATE BREAKOUT SEQUENCE';
+      var twEl = document.getElementById('typewriter');
+      var twIndex = 0;
+      setTimeout(function startTypewriter() {
+        var timer = setInterval(function () {
+          twIndex++;
+          twEl.innerHTML = twText.slice(0, twIndex) + '<span class="cursor">&nbsp;</span>';
+          if (twIndex >= twText.length) {
+            clearInterval(timer);
+            // keep blinking cursor
+          }
+        }, 50);
+      }, 800);
+
+      /* --- Nav show/hide on scroll --- */
+      var nav = document.getElementById('nav');
+      window.addEventListener('scroll', function () {
+        if (window.scrollY > window.innerHeight * 0.6) {
+          nav.classList.add('visible');
+        } else {
+          nav.classList.remove('visible');
+        }
+      }, { passive: true });
+
+      /* --- Intersection Observer for section reveals --- */
+      var sections = document.querySelectorAll('.section');
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      sections.forEach(function (s) { observer.observe(s); });
+
+      /* --- Newsletter form --- */
+      var nlForm = document.getElementById('newsletter-form');
+      nlForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var email = document.getElementById('email-input').value;
+        if (!email) return;
+        document.getElementById('newsletter-form-area').innerHTML =
+          '<div class="success-msg">' +
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' +
+            'You\u2019re in. Check your inbox for the first dispatch.' +
+          '</div>';
+      });
+
+      /* --- Declaration / signature --- */
+      var sigInput = document.getElementById('sig-input');
+      var declareBtn = document.getElementById('declare-btn');
+      var stamp = document.getElementById('stamp');
+      var welcomeMsg = document.getElementById('welcome-msg');
+      var declared = false;
+
+      sigInput.addEventListener('input', function () {
+        declareBtn.disabled = !sigInput.value.trim();
+      });
+
+      declareBtn.addEventListener('click', function () {
+        if (declared || !sigInput.value.trim()) return;
+        declared = true;
+        sigInput.disabled = true;
+        declareBtn.style.display = 'none';
+        stamp.classList.add('visible');
+        welcomeMsg.innerHTML = '<p class="welcome-msg">Welcome to the outside, ' + escapeHTML(sigInput.value.trim()) + '.</p>';
+
+        // Increment counter
+        var stored = localStorage.getItem('escapeeCount');
+        var count = stored ? parseInt(stored, 10) : 11247;
+        count++;
+        localStorage.setItem('escapeeCount', String(count));
+        animateCounter(count);
+      });
+
+      /* --- Animated counter --- */
+      var counterEl = document.getElementById('counter-number');
+      var counterTarget = 0;
+      var counterAnimated = false;
+
+      // Load initial count
+      var storedCount = localStorage.getItem('escapeeCount');
+      counterTarget = storedCount ? parseInt(storedCount, 10) : 11247;
+
+      var counterObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !counterAnimated) {
+            counterAnimated = true;
+            animateCounter(counterTarget);
+            counterObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+      counterObs.observe(document.getElementById('counter-bar'));
+
+      function animateCounter(target) {
+        counterTarget = target;
+        var current = 0;
+        var step = target / (2000 / 16);
+        var timer = setInterval(function () {
+          current += step;
+          if (current >= target) {
+            counterEl.textContent = target.toLocaleString();
+            clearInterval(timer);
+          } else {
+            counterEl.textContent = Math.floor(current).toLocaleString();
+          }
+        }, 16);
+      }
+
+      function escapeHTML(str) {
+        var div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+    })();
+  </script>
+</body>
+</html>
